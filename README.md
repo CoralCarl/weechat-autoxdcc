@@ -1,2 +1,2 @@
 # weechat-autoxdcc
- WeeChat python auto downloader for subscribed anime shows
+ WeeChat python xdcc auto downloader for subscribed anime shows.
