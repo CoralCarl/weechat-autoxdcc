@@ -1,12 +1,13 @@
 # weechat-autoxdcc	
- autoXDCC or short axdc is a small script to automatically download anime shows via xdcc.
+ autoXDCC or short axdc is a small WeeChat script to automatically download anime shows via xdcc.
 
 ## Setup
- To install the script either use `/script load $PATH_TO_FILE/autoxdcc.py` or move the script into the `weechat/python/autload` folder. ([WeeChat Documentation](https://weechat.org/files/doc/devel/weechat_scripting.en.html#load_script))
+ To install the script either use `/script load $PATH_TO_FILE/autoxdcc.py` or move the script into the `weechat/python/autoload` folder. ([WeeChat Documentation](https://weechat.org/files/doc/devel/weechat_scripting.en.html#load_script))
 
  For initial setup you will have to add a bot to download from and add a channel you want to listen to for announcements. You will still have to join that channel manually for it to work.
 
- Autoaccept downloads has to be enabled in WeeChat unless you want to accept each file manually.
+ Autoaccept downloads has to be enabled in WeeChat unless you want to accept each file manually:
+
  `/set xfer.file.auto_accept_files on`
 
 ## Usage
