@@ -138,7 +138,7 @@ def parse_message(data, signal, signal_data):
             (hash := re.search(r"\[(\w+?)]\.", msg["text"]).group(1).lower()) not in db["hash"]):
         for show in db["show"]:
             if ((show[0] == "\"" and show[-1] == "\"" and show[1:-1] in txt) or
-                    (not (show[0] == "\"" and show[-1] == "\"" and all(word in txt for word in show)))):
+                    (not (show[0] == "\"" and show[-1] == "\"") and all(word in txt for word in show))):
                 xdccmsg = re.search(r"(?i)/msg.+send #?\d+",
                                     msg["text"]).group(0)
                 weechat.command(weechat.buffer_search(
