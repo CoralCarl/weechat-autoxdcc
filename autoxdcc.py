@@ -4,7 +4,8 @@ import os
 import os.path
 import json
 
-VERSION = "1.0"
+VERSION = "1.0.1"
+DBVERSION = "1.0"
 
 weechat.register("autoxdcc", "ccarl", VERSION, "none",
                  "xdcc auto download script", "", "")
@@ -13,7 +14,7 @@ HOMEDIR = weechat.info_get("weechat_dir", "") + "/autoxdcc/"
 CONF_PATH = HOMEDIR + "autoxdcc.conf"
 HASH_PATH = HOMEDIR + "completed"
 
-db = {"version": VERSION, "option": {"quality": "1080"},
+db = {"version": DBVERSION, "option": {"quality": "1080"},
       "bot": [], "show": [], "channel": [], "hash": []}
 valid_commands = r"(?i)"\
     r"(?:(add|remove)\s+(show|bot|channel|hash)\s+(.*\S)\s*)"\
@@ -51,9 +52,7 @@ def log(message):
 
 
 def upgrade_database():
-    while db["version"] != VERSION:
-        db["version"] = VERSION
-    update_conf()
+    pass
 
 
 def update_conf():
@@ -131,21 +130,21 @@ def handle_commands(data, buffer, args):
 def parse_message(data, signal, signal_data):
     msg = weechat.info_get_hashtable(
         "irc_message_parse", {"message": signal_data})
-    txt = msg["text"].lower()
     if (msg["nick"].lower() in db["bot"] and
         msg["channel"].strip("#").lower() in db["channel"] and
-        ("(%sp)" % db["option"]["quality"]) in txt and
+        ("(%sp)" % db["option"]["quality"]) in msg["text"].lower() and
             (hash := re.search(r"\[(\w+?)]\.", msg["text"]).group(1).lower()) not in db["hash"]):
+        title = re.search(r"] ([^[]+) - \d+ \(\d+p\)", msg["text"]).group(1)
         for show in db["show"]:
-            if ((show[0] == "\"" and show[-1] == "\"" and show[1:-1] in txt) or
-                    (not (show[0] == "\"" and show[-1] == "\"") and all(word in txt for word in show))):
+            if ((show[0] == "\"" and show[-1] == "\"" and show[1:-1] in title.lower()) or
+                    (not (show[0] == "\"" and show[-1] == "\"") and all(word in title.lower() for word in show.split()))):
                 xdccmsg = re.search(r"(?i)/msg.+send #?\d+",
                                     msg["text"]).group(0)
                 weechat.command(weechat.buffer_search(
                     "==", "irc.rizon.%s" % msg["channel"]), xdccmsg)
                 db["hash"].append(hash)
                 update_hash()
-                log("New Episode of %s, hash: %s" % (show, hash.upper()))
+                log("New Episode of %s, hash: %s" % (title, hash.upper()))
                 break
     return weechat.WEECHAT_RC_OK
 
