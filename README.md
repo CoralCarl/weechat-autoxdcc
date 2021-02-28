@@ -11,23 +11,24 @@
  `/set xfer.file.auto_accept_files on`
 
 ## Usage
- To add a show/bot/channel:
+* To add a show/bot/channel:
 
  `/axdc add show/bot/channel title`
 
  By default order and seperation do not matter as long as every word of the title is present. To check for an exact match use quotation marks instead: `"title"`
 
-To remove a show/bot/channel:
+* To remove a show/bot/channel:
 
 `/axdc remove show/bot/channel/hash title/index`
 
-To remove all entries of a list:
+* To remove all entries of a list:
 
 `/axdc clear show/bot/channel`
 
-To set the video resolution to be downloaded:
+* To set the video resolution to be downloaded:
 
 `/axdc set quality 480/540/720/1080`
+
 480p and 540p are released mixed at the moment so they probably shouldn't be used.
 
 The autoXDCC buffer will let you use commands without the `/axdc` prefix.
